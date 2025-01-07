@@ -19,6 +19,9 @@ class Envcli < Formula
     # Move package contents to libexec
     libexec.install Dir["*"]
     
+    # Install dependencies
+    system "npm", "install", "--prefix", libexec
+    
     # Create bin stubs
     (bin/"envcli").write <<~EOS
       #!/bin/bash

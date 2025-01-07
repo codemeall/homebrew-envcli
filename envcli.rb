@@ -23,10 +23,10 @@ class Envcli < Formula
     # Create package.json if it doesn't exist
     system "npm", "init", "-y" unless File.exist? "package.json"
     
-    # Install dependencies
-    system "npm", "install", "commander@12.1.0"
-    system "npm", "install", "chalk@4.1.2"
-    system "npm", "install", "figlet@1.8.0"
+    # Install dependencies with more verbose output and error handling
+    system "npm", "install", "--verbose", "commander@12.1.0" or raise "Failed to install commander"
+    system "npm", "install", "--verbose", "chalk@4.1.2" or raise "Failed to install chalk"
+    system "npm", "install", "--verbose", "figlet@1.8.0" or raise "Failed to install figlet"
     
     # Move package contents to libexec
     libexec.install Dir["*"]

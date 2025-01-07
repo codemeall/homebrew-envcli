@@ -10,9 +10,17 @@ class Envcli < Formula
     strategy :github_latest
   end
 
-  depends_on "node"
+  # Remove direct node dependency
+  # depends_on "node"
 
   def install
+    # Check for existing node installation
+    if ENV["PATH"].split(File::PATH_SEPARATOR).any? { |path| File.exist?(File.join(path, "node")) }
+      node_path = `which node`.chomp
+    else
+      odie "Node.js is required but not found. Please install Node.js first."
+    end
+    
     # Extract the package contents
     system "tar", "xf", cached_download, "-C", buildpath
     
@@ -28,11 +36,11 @@ class Envcli < Formula
     libexec.install Dir["*"]
     libexec.install Dir["node_modules"]
     
-    # Create bin stubs
+    # Create bin stubs using system node
     (bin/"envcli").write <<~EOS
       #!/bin/bash
       export NODE_PATH="#{libexec}/node_modules"
-      exec "#{Formula["node"].opt_bin}/node" "#{libexec}/index.js" "$@"
+      exec "#{node_path}" "#{libexec}/index.js" "$@"
     EOS
     
     # Make the bin stub executable

@@ -1,4 +1,4 @@
-lass Envcli < Formula
+class Envcli < Formula
   desc "A CLI tool for managing environment variables"
   homepage "https://github.com/codemeall/envcli"
   url "https://github.com/codemeall/irootcli/releases/download/v1.0.1/envcli-1.0.7.tgz"

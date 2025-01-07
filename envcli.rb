@@ -41,5 +41,6 @@ class Envcli < Formula
 
   test do
     assert_match "envcli", shell_output("#{bin}/envcli about")
+    assert_match version.to_s, shell_output("#{bin}/envcli version")
   end
 end

@@ -10,42 +10,41 @@ class Envcli < Formula
     strategy :github_latest
   end
 
-  # Make node optional
-  depends_on "node" => :recommended
-
   def install
-    # Use system node if available, otherwise use Homebrew's node
-    node_executable = which("node") || Formula["node"].opt_bin/"node"
-    
+    # Check if Node.js is installed
+    node_executable = which("node")
+    odie "Node.js is not installed. Please install it and try again." unless node_executable
+
     # Extract the package contents
     system "tar", "xf", cached_download, "-C", buildpath
-    
+
     # Create package.json if it doesn't exist
     system "npm", "init", "-y" unless File.exist? "package.json"
-    
+
     # Install dependencies
     system "npm", "install", "commander@12.1.0"
     system "npm", "install", "chalk@4.1.2"
     system "npm", "install", "figlet@1.8.0"
-    
+
     # Move package contents to libexec
     libexec.install Dir["*"]
     libexec.install Dir["node_modules"]
-    
+
     # Create bin stubs
     (bin/"envcli").write <<~EOS
       #!/bin/bash
       export NODE_PATH="#{libexec}/node_modules"
       exec "#{node_executable}" "#{libexec}/index.js" "$@"
     EOS
-    
+
     # Make the bin stub executable
     chmod 0755, bin/"envcli"
   end
 
   def caveats
     <<~EOS
-      envcli requires Node.js. If you don't have Node.js installed, you can install it with:
+      envcli requires Node.js. Please ensure Node.js is installed on your system.
+      You can install it with:
         brew install node
     EOS
   end

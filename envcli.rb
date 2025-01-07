@@ -14,12 +14,8 @@ class Envcli < Formula
   # depends_on "node"
 
   def install
-    # Check for existing node installation
-    if ENV["PATH"].split(File::PATH_SEPARATOR).any? { |path| File.exist?(File.join(path, "node")) }
-      node_path = `which node`.chomp
-    else
-      odie "Node.js is required but not found. Please install Node.js first."
-    end
+    # Use system node directly
+    node_path = `which node`.chomp
     
     # Extract the package contents
     system "tar", "xf", cached_download, "-C", buildpath

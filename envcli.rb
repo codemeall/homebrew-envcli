@@ -4,7 +4,7 @@ class Envcli < Formula
   url "https://github.com/codemeall/envcli/releases/download/v1.0.3/envcli-1.0.3.tgz"
   sha256 "1bf3311ddc595da5ff2f211cdc9b8cfeb97dc5b8d55ffe6f16539959c9ca4748"
   license "ISC"
-  depends_on "node"
+  depends_on "node@18"
   def install
     # Extract the package contents
     system "tar", "xf", cached_download, "-C", buildpath
@@ -15,7 +15,7 @@ class Envcli < Formula
     # Create bin stubs
     (bin/"envcli").write <<~EOS
       #!/bin/bash
-      exec "#{Formula["node"].opt_bin}/node" "#{libexec}/index.js" "$@"
+      exec "#{Formula["node@18"].opt_bin}/node" "#{libexec}/index.js" "$@"
     EOS
     
     # Make the bin stub executable

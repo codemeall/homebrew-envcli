@@ -11,17 +11,12 @@ class Envcli < Formula
   end
 
   def install
-    # Check for Node.js in common installation locations
-    node_paths = [
-      "/usr/local/bin/node",      # Homebrew default
-      "/opt/homebrew/bin/node",   # Apple Silicon Homebrew
-      "/usr/bin/node",            # System installation
-      "#{ENV['HOME']}/.nvm/current/bin/node", # NVM installation
-      "#{ENV['HOME']}/.nodenv/shims/node",    # nodenv installation
-    ]
-
-    node_executable = node_paths.find { |path| File.executable?(path) }
-    odie "Node.js is not installed. Please install it and try again." unless node_executable
+    # Check if Node.js is installed in node_modules or system PATH
+    node_executable = if File.exist?(buildpath/"node_modules/.bin/node")
+      buildpath/"node_modules/.bin/node"
+    else
+      which("node") || odie("Node.js is not installed. Please install it via Homebrew or include it in node_modules.")
+    end
 
     # Extract the package contents
     system "tar", "xf", cached_download, "-C", buildpath

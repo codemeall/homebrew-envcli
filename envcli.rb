@@ -1,8 +1,8 @@
 class Envcli < Formula
   desc "A CLI tool for managing environment variables"
   homepage "https://github.com/codemeall/envcli"
-  url "https://github.com/codemeall/envcli/releases/download/v1.0.9/envcli-1.0.9.tgz"
-  sha256 "1042d132a008ece9b28e45f8577e07bac913b48be448e64fa186ac91a41f57e6"
+  url "https://github.com/codemeall/envcli/releases/download/v1.0.8/envcli-1.0.8.tgz"
+  sha256 "8d5f16cb670b4f9043e552fc3da28413f778085c9eab57861548ede836b7d4ca"
   license "ISC"
 
   livecheck do
